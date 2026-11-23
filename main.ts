@@ -11,6 +11,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
 const COUNT = "87";
+// Guard the sealed gate: the entry must be 1-5 characters, digits only.
+// Fail loudly here rather than write a file the gate would score 0.
+if (!/^\d{1,5}$/.test(COUNT)) {
+  throw new Error(`COUNT must be 1-5 digits, got: ${JSON.stringify(COUNT)}`);
+}
 const outputPath = process.env.OUTPUT_PATH ?? "/output/entry.txt";
 
 mkdirSync(dirname(outputPath), { recursive: true });
